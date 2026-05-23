@@ -2,20 +2,22 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
-# --- Problem B Definitions ---
+# --- Problem C: Nonlinear Gradient System ---
 def f(t, y):
-    return 2 * y  # The new ODE
+    return y * (1 - y**2)
 
+# For the Taylor Method of order 2, we need f'(t,y)
+# Using chain rule/product rule: f' = y' * (1 - y^2) + y * (-2 * y * y')
+# Since y' = f(t, y), we substitute:
 def df(t, y):
-    # Taylor method requires f'(t,y) = f_t + f_y * f
-    # f_t = 0, f_y = 2. So f' = 0 + 2 * (2y) = 4y
-    return 4 * y
+    y_prime = y * (1 - y**2)
+    return y_prime * (1 - y**2) + y * (-2 * y * y_prime)
 
 def exact_sol(t):
-    # The analytical solution to y' = 2y is y(t) = C * e^(2t)
-    # With y(0) = 1, we get y(t) = e^(2t)
-    return np.exp(2 * t)
+    # The analytical solution to y' = y(1 - y^2)
+    # Using separation of variables and partial fractions
+    y0 = 0.01
+    return 1 / np.sqrt(1 + ((1/y0**2) - 1) * np.exp(-2 * t))
 
 # --- Numerical Methods ---
 #1. Euler
@@ -214,7 +216,7 @@ def predictor_corrector_ab4_am3(t_vals, h, y0):
 # --- Main Execution ---
 a, b = 0, 2
 y0 = 0.5
-h = 0.05  # Test with step size 0.2 (can easily be changed to 0.1 or 0.05)
+h = 0.4  # Test with step size 0.2 (can easily be changed to 0.1 or 0.05)
 
 t_vals = np.arange(a, b + h, h)
 exact_vals = exact_sol(t_vals)
@@ -284,7 +286,7 @@ for col in df_errors.columns:
     if col != 't':
         plt.plot(df_errors['t'], df_errors[col], label=col)
 
-plt.title('Absolute Errors for Problem A (h=0.05)')
+plt.title('Absolute Errors for Problem A (h=0.2)')
 plt.yscale('log') # Log scale is often best for visualizing drastically different error magnitudes
 plt.xlabel('t')
 plt.ylabel('Absolute Error')
