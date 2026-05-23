@@ -149,7 +149,7 @@ plt.grid(True)
 plt.show()
 
 
-#h=0.4
+#-----h=0.4-----
 
 # --- Numerical Methods ---
 #1. Euler
@@ -279,7 +279,7 @@ for col in df_errors.columns:
     if col != 't':
         plt.plot(df_errors['t'], df_errors[col], label=col)
 
-plt.title('Absolute Errors for Problem A (h=0.2)')
+plt.title('Absolute Errors for Problem A (h=0.4)')
 plt.yscale('log') # Log scale is often best for visualizing drastically different error magnitudes
 plt.xlabel('t')
 plt.ylabel('Absolute Error')
