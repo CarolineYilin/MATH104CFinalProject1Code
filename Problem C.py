@@ -214,8 +214,8 @@ def predictor_corrector_ab4_am3(t_vals, h, y0):
     return w
 
 # --- Main Execution ---
-a, b = 0, 2
-y0 = 0.5
+a, b = 0, 5
+y0 = 0.01
 h = 0.4  # Test with step size 0.2 (can easily be changed to 0.1 or 0.05)
 
 t_vals = np.arange(a, b + h, h)
