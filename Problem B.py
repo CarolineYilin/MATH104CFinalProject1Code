@@ -126,7 +126,6 @@ results = {
     'Exact': exact_vals,
     'Euler': np.zeros_like(t_vals),
     'Taylor2': np.zeros_like(t_vals),
-    'Midpoint': np.zeros_like(t_vals),
     'Mod_Euler': np.zeros_like(t_vals),
     'Heun3': np.zeros_like(t_vals),
     'RK4': np.zeros_like(t_vals)
