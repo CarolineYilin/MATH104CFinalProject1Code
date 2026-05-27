@@ -224,6 +224,7 @@ for i in range(len(t_vals) - 1):
     t_i = t_vals[i]
     results['Euler'][i+1] = euler(t_i, results['Euler'][i], h)
     results['Taylor2'][i+1] = taylor_order2(t_i, results['Taylor2'][i], h)
+    results['Mod_Euler'][i+1] = modified_euler(t_i, results['Mod_Euler'][i], h)
     results['Heun3'][i+1] = heun3(t_i, results['Heun3'][i], h)
     results['RK4'][i+1] = rk4(t_i, results['RK4'][i], h)
 
