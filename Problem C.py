@@ -118,7 +118,7 @@ def predictor_corrector_ab4_am3(t_vals, h, y0):
 # --- Main Execution ---
 a, b = 0, 5
 y0 = 0.01
-h = 0.4  # Test with step size 0.4 (can easily be changed to 0.2 or 0.1)
+h = 0.4 
 
 t_vals = np.arange(a, b + h, h)
 exact_vals = exact_sol(t_vals)
@@ -167,7 +167,6 @@ print("\nAbsolute Errors (h = 0.4):")
 print(df_errors)
 
 
-# plotting separately without Adams–Bashforth and Adams–Moulton
 fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
 methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
 
@@ -189,7 +188,7 @@ for col in df_errors.columns:
         plt.plot(df_errors['t'], df_errors[col], label=col)
 
 plt.title('Absolute Errors for Problem C (h=0.4)')
-plt.yscale('log') # Log scale is often best for visualizing drastically different error magnitudes
+plt.yscale('log') 
 plt.xlabel('t')
 plt.ylabel('Absolute Error')
 plt.legend()
@@ -201,7 +200,7 @@ plt.show()
 # --- Main Execution ---
 a, b = 0, 5
 y0 = 0.01
-h = 0.2  # Test with step size 0.2 (can easily be changed to 0.1 or 0.05)
+h = 0.2 
 
 t_vals = np.arange(a, b + h, h)
 exact_vals = exact_sol(t_vals)
@@ -250,7 +249,6 @@ print("\nAbsolute Errors (h = 0.2):")
 print(df_errors)
 
 
-# plotting separately without Adams–Bashforth and Adams–Moulton
 fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
 methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
 
@@ -272,7 +270,7 @@ for col in df_errors.columns:
         plt.plot(df_errors['t'], df_errors[col], label=col)
 
 plt.title('Absolute Errors for Problem C (h=0.2)')
-plt.yscale('log') # Log scale is often best for visualizing drastically different error magnitudes
+plt.yscale('log') 
 plt.xlabel('t')
 plt.ylabel('Absolute Error')
 plt.legend()
@@ -283,7 +281,7 @@ plt.show()
 # --- Main Execution ---
 a, b = 0, 5
 y0 = 0.01
-h = 0.1  # Test with step size 0.2 (can easily be changed to 0.1 or 0.05)
+h = 0.1  
 
 t_vals = np.arange(a, b + h, h)
 exact_vals = exact_sol(t_vals)
@@ -332,7 +330,6 @@ print("\nAbsolute Errors (h = 0.1):")
 print(df_errors)
 
 
-# plotting separately without Adams–Bashforth and Adams–Moulton
 fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
 methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
 
@@ -354,7 +351,7 @@ for col in df_errors.columns:
         plt.plot(df_errors['t'], df_errors[col], label=col)
 
 plt.title('Absolute Errors for Problem C (h=0.1)')
-plt.yscale('log') # Log scale is often best for visualizing drastically different error magnitudes
+plt.yscale('log') 
 plt.xlabel('t')
 plt.ylabel('Absolute Error')
 plt.legend()
