@@ -358,3 +358,64 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+# ==========================================
+# Global Convergence Plot (Log-Log) for Problem C
+# ==========================================
+
+h_values = [0.4, 0.2, 0.1]   # matches the step sizes already used in Problem C
+methods_list = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
+
+a, b, y0 = 0, 5, 0.01
+
+final_errors = {method: [] for method in methods_list}
+
+for h_test in h_values:
+    t_test = np.arange(a, b + h_test, h_test)
+    n = len(t_test)
+
+    w_dict = {method: np.zeros(n) for method in methods_list}
+    for method in methods_list:
+        w_dict[method][0] = y0
+
+    # One-Step Methods
+    for i in range(n - 1):
+        t_i = t_test[i]
+        w_dict['Euler'][i+1]     = euler(t_i, w_dict['Euler'][i], h_test)
+        w_dict['Taylor2'][i+1]   = taylor_order2(t_i, w_dict['Taylor2'][i], h_test)
+        w_dict['Mod_Euler'][i+1] = modified_euler(t_i, w_dict['Mod_Euler'][i], h_test)
+        w_dict['Heun3'][i+1]     = heun3(t_i, w_dict['Heun3'][i], h_test)
+        w_dict['RK4'][i+1]       = rk4(t_i, w_dict['RK4'][i], h_test)
+
+    # Multistep Methods
+    w_dict['AB4']       = ab4(t_test, h_test, y0)
+    w_dict['AM3']       = am3(t_test, h_test, y0)
+    w_dict['Pred_Corr'] = predictor_corrector_ab4_am3(t_test, h_test, y0)
+
+    T = t_test[-1]
+    exact_final = exact_sol(T)
+
+    for method in methods_list:
+        err = abs(exact_final - w_dict[method][-1])
+        final_errors[method].append(err)
+
+# Log-Log Plot
+plt.figure(figsize=(10, 7))
+markers = ['o', 's', '^', 'D', 'v', '<', '>', 'p']
+
+for i, method in enumerate(methods_list):
+    plt.loglog(h_values, final_errors[method], marker=markers[i], linewidth=2, label=method)
+
+# Reference slopes
+plt.loglog(h_values, [final_errors['Euler'][0] * (h / h_values[0])**1 for h in h_values],
+           'k:', linewidth=2, alpha=0.6, label='$\mathcal{O}(h)$ Reference')
+plt.loglog(h_values, [final_errors['RK4'][0] * (h / h_values[0])**4 for h in h_values],
+           'k--', linewidth=2, alpha=0.6, label='$\mathcal{O}(h^4)$ Reference')
+
+plt.xticks(h_values, [str(h) for h in h_values])
+plt.xlabel('Step Size ($h$)')
+plt.ylabel(f'Absolute Error at Final Time $T={b}$')
+plt.title('Global Convergence: All Methods vs Step Size (Problem C)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True, which="both", ls="--", alpha=0.7)
+plt.tight_layout()
+plt.show()
