@@ -115,12 +115,15 @@ def predictor_corrector_ab4_am3(t_vals, h, y0):
         
     return w
 
-# --- Main Execution ---
-a, b = 0, 5
+# ==========================================
+# ----- h=0.4 -----
+# ==========================================
+a, b = 0, 4.8
 y0 = 0.01
 h = 0.4 
 
-t_vals = np.arange(a, b + h, h)
+# Use h/2 to prevent floating point overshoot
+t_vals = np.arange(a, b + h/2, h)
 exact_vals = exact_sol(t_vals)
 
 results = {
@@ -166,11 +169,9 @@ for col in df_results.columns:
 print("\nAbsolute Errors (h = 0.4):")
 print(df_errors)
 
-
-fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
+fig, axs = plt.subplots(2, 4, figsize=(15, 8)) 
 methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
 
-# Loop through to plot each method on its own subplot
 for i, method in enumerate(methods):
     row, col = i // 4, i % 4
     axs[row, col].plot(t_vals, exact_vals, 'k--', label='Exact')
@@ -195,14 +196,14 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-
-#-----h=0.2-----
-# --- Main Execution ---
-a, b = 0, 5
+# ==========================================
+# ----- h=0.2 -----
+# ==========================================
+a, b = 0, 4.8
 y0 = 0.01
 h = 0.2 
 
-t_vals = np.arange(a, b + h, h)
+t_vals = np.arange(a, b + h/2, h)
 exact_vals = exact_sol(t_vals)
 
 results = {
@@ -215,12 +216,10 @@ results = {
     'RK4': np.zeros_like(t_vals)
 }
 
-# Initialize w0
 for key in results.keys():
     if key not in ['t', 'Exact']:
         results[key][0] = y0
 
-# Compute One-Step Methods
 for i in range(len(t_vals) - 1):
     t_i = t_vals[i]
     results['Euler'][i+1] = euler(t_i, results['Euler'][i], h)
@@ -229,17 +228,14 @@ for i in range(len(t_vals) - 1):
     results['Heun3'][i+1] = heun3(t_i, results['Heun3'][i], h)
     results['RK4'][i+1] = rk4(t_i, results['RK4'][i], h)
 
-# Compute Multistep Methods
 results['AB4'] = ab4(t_vals, h, y0)
 results['AM3'] = am3(t_vals, h, y0)
 results['Pred_Corr'] = predictor_corrector_ab4_am3(t_vals, h, y0)
 
-# Display Results DataFrame
 df_results = pd.DataFrame(results)
 print("Approximations (h = 0.2):")
 print(df_results)
 
-# Compute Absolute Errors
 df_errors = pd.DataFrame({'t': t_vals})
 for col in df_results.columns:
     if col not in ['t', 'Exact']:
@@ -248,11 +244,7 @@ for col in df_results.columns:
 print("\nAbsolute Errors (h = 0.2):")
 print(df_errors)
 
-
-fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
-methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
-
-# Loop through to plot each method on its own subplot
+fig, axs = plt.subplots(2, 4, figsize=(15, 8)) 
 for i, method in enumerate(methods):
     row, col = i // 4, i % 4
     axs[row, col].plot(t_vals, exact_vals, 'k--', label='Exact')
@@ -263,7 +255,6 @@ for i, method in enumerate(methods):
 plt.tight_layout()
 plt.show()
 
-# Plot Error Curves
 plt.figure(figsize=(10, 6))
 for col in df_errors.columns:
     if col != 't':
@@ -277,13 +268,14 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-#-----h=0.1-----
-# --- Main Execution ---
-a, b = 0, 5
+# ==========================================
+# ----- h=0.1 -----
+# ==========================================
+a, b = 0, 4.8
 y0 = 0.01
 h = 0.1  
 
-t_vals = np.arange(a, b + h, h)
+t_vals = np.arange(a, b + h/2, h)
 exact_vals = exact_sol(t_vals)
 
 results = {
@@ -296,12 +288,10 @@ results = {
     'RK4': np.zeros_like(t_vals)
 }
 
-# Initialize w0
 for key in results.keys():
     if key not in ['t', 'Exact']:
         results[key][0] = y0
 
-# Compute One-Step Methods
 for i in range(len(t_vals) - 1):
     t_i = t_vals[i]
     results['Euler'][i+1] = euler(t_i, results['Euler'][i], h)
@@ -310,17 +300,14 @@ for i in range(len(t_vals) - 1):
     results['Heun3'][i+1] = heun3(t_i, results['Heun3'][i], h)
     results['RK4'][i+1] = rk4(t_i, results['RK4'][i], h)
 
-# Compute Multistep Methods
 results['AB4'] = ab4(t_vals, h, y0)
 results['AM3'] = am3(t_vals, h, y0)
 results['Pred_Corr'] = predictor_corrector_ab4_am3(t_vals, h, y0)
 
-# Display Results DataFrame
 df_results = pd.DataFrame(results)
 print("Approximations (h = 0.1):")
 print(df_results)
 
-# Compute Absolute Errors
 df_errors = pd.DataFrame({'t': t_vals})
 for col in df_results.columns:
     if col not in ['t', 'Exact']:
@@ -329,11 +316,7 @@ for col in df_results.columns:
 print("\nAbsolute Errors (h = 0.1):")
 print(df_errors)
 
-
-fig, axs = plt.subplots(2, 4, figsize=(15, 8)) # Creates a 2x4 grid
-methods = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
-
-# Loop through to plot each method on its own subplot
+fig, axs = plt.subplots(2, 4, figsize=(15, 8)) 
 for i, method in enumerate(methods):
     row, col = i // 4, i % 4
     axs[row, col].plot(t_vals, exact_vals, 'k--', label='Exact')
@@ -344,7 +327,6 @@ for i, method in enumerate(methods):
 plt.tight_layout()
 plt.show()
 
-# Plot Error Curves
 plt.figure(figsize=(10, 6))
 for col in df_errors.columns:
     if col != 't':
@@ -362,15 +344,16 @@ plt.show()
 # Global Convergence Plot (Log-Log) for Problem C
 # ==========================================
 
-h_values = [0.4, 0.2, 0.1]   # matches the step sizes already used in Problem C
+h_values = [0.4, 0.2, 0.1]   
 methods_list = ['Euler', 'Taylor2', 'Mod_Euler', 'Heun3', 'RK4', 'AB4', 'AM3', 'Pred_Corr']
 
-a, b, y0 = 0, 5, 0.01
+# Update b to 4.8 here as well for a perfect apples-to-apples comparison
+a, b, y0 = 0, 4.8, 0.01
 
 final_errors = {method: [] for method in methods_list}
 
 for h_test in h_values:
-    t_test = np.arange(a, b + h_test, h_test)
+    t_test = np.arange(a, b + h_test/2, h_test)
     n = len(t_test)
 
     w_dict = {method: np.zeros(n) for method in methods_list}
@@ -407,13 +390,13 @@ for i, method in enumerate(methods_list):
 
 # Reference slopes
 plt.loglog(h_values, [final_errors['Euler'][0] * (h / h_values[0])**1 for h in h_values],
-           'k:', linewidth=2, alpha=0.6, label='$\mathcal{O}(h)$ Reference')
+           'k:', linewidth=2, alpha=0.6, label='$O(h)$ Reference')
 plt.loglog(h_values, [final_errors['RK4'][0] * (h / h_values[0])**4 for h in h_values],
-           'k--', linewidth=2, alpha=0.6, label='$\mathcal{O}(h^4)$ Reference')
+           'k--', linewidth=2, alpha=0.6, label='$O(h^4)$ Reference')
 
 plt.xticks(h_values, [str(h) for h in h_values])
-plt.xlabel('Step Size ($h$)')
-plt.ylabel(f'Absolute Error at Final Time $T={b}$')
+plt.xlabel('Step Size (h)')
+plt.ylabel(f'Absolute Error at Final Time T={b}')
 plt.title('Global Convergence: All Methods vs Step Size (Problem C)')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True, which="both", ls="--", alpha=0.7)
